@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -ex
+
+docker run --rm $DOCKER_IMAGE script/test

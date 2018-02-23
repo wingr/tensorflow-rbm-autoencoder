@@ -1,0 +1,12 @@
+#!/bin/sh
+# Run a command in the app's development environment.
+
+set -e
+
+appdir=$(cd $(dirname "$0")/.. && pwd)
+[ -f /etc/inside-container ] && exec "$@"
+
+cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
+image=${DOCKER_IMAGE:=tf-rbm-autoencoder}
+
+exec docker run -i -t -v "$appdir:/src" $image $cmd

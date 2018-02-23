@@ -1,0 +1,8 @@
+.dockerignore
+.git
+.gitignore
+.python-version
+.cache
+Dockerfile
+README.md
+__pycache__

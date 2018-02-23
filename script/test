@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+appdir=$(cd $(dirname "$0")/.. && pwd)
+[ -f /etc/inside-container  ] || exec "$appdir/script/app-env" $0 $@
+
+export PYTHONPATH="${appdir}/src:$PYTHONPATH"
+
+pytest \
+  --durations=5 \
+  tests
