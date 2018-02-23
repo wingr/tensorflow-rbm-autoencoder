@@ -1,9 +1,10 @@
 # General
 __pycache__
+.pytest_cache/
 *.cache
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
 
 # Project specific
-docker_example.txt
+tests/docker_example.txt
