@@ -1,0 +1,9 @@
+# General
+__pycache__
+*.cache
+*DS_Store
+*.py[cod]
+*.ipynb_checkpoints/
+
+# Project specific
+docker_example.txt
