@@ -1,8 +1,9 @@
 """
-This module contains a set of utility functions for working with the RBM model.
+This module contains a set of data utility functions for working with the RBM 
+model.
 
 Author: @wingr
-Date: 2017-10-16
+Date: 2018-02-23
 """
 import os
 
