@@ -3,7 +3,7 @@ This module implements a Restricted Boltzmann Machine. This class is meant to
 be imported and used by another module, e.g. the `run_rbm.py` module.
 
 Author: @wingr (see note below)
-Date: 2017-10-16
+Date: 2018-02-23
 
 Note: This was heavily adapted from
   - https://github.com/meownoid/tensorfow-rbm
@@ -86,7 +86,7 @@ class RBM:
        
         # Define a couple other functions to use with the trained model
         self.compute_err = tf.reduce_mean(tf.square(self.X - self.compute_visible))
-        self.compute_free_energy = self.free_energy(self.v_sample)
+        self.compute_free_energy = self._free_energy(self.v_sample)
 
         # Initialize variables and create a session
         init = tf.global_variables_initializer()
@@ -94,7 +94,7 @@ class RBM:
         self.sess.run(init)
 
 
-    def sample_bernoulli(self, probs):
+    def _sample_bernoulli(self, probs):
         """
         This function provides the sampling step for the Gibbs sampling used
         in the recreation of the visible layer from the hidden layer. 
@@ -122,7 +122,7 @@ class RBM:
         return tf.nn.relu(tf.sign(probs - tf.random_uniform(tf.shape(probs))))
 
 
-    def update(self, delta_old, model_err):
+    def _update(self, delta_old, model_err):
         """
         This function provides the update rule (gradient) using the learning 
         rate and momentum. This function is used to update the weights and 
@@ -153,7 +153,7 @@ class RBM:
         return delta
 
 
-    def free_energy(self, v_sample):
+    def _free_energy(self, v_sample):
         """
         Function to compute the free energy. Conceptually, the free energy can 
         be used like a non-normalized probability value, or log-likelihood, for 
@@ -197,7 +197,7 @@ class RBM:
         """
         hidden_p = tf.nn.sigmoid(tf.matmul(self.X, self.W) + self.hidden_bias)
         visible_recon_p = tf.nn.sigmoid(tf.matmul(
-            self.sample_bernoulli(hidden_p), 
+            self._sample_bernoulli(hidden_p), 
             tf.transpose(self.W)) + self.visible_bias)
         hidden_recon_p = tf.nn.sigmoid(tf.matmul(visible_recon_p, self.W) \
             + self.hidden_bias)
@@ -205,10 +205,10 @@ class RBM:
         positive_grad = tf.matmul(tf.transpose(self.X), hidden_p)
         negative_grad = tf.matmul(tf.transpose(visible_recon_p), hidden_recon_p)
 
-        delta_w_new = self.update(self.delta_w, (positive_grad - negative_grad))
-        delta_visible_bias_new = self.update(self.delta_visible_bias, 
+        delta_w_new = self._update(self.delta_w, (positive_grad - negative_grad))
+        delta_visible_bias_new = self._update(self.delta_visible_bias, 
             tf.reduce_mean(self.X - visible_recon_p, 0))
-        delta_hidden_bias_new = self.update(self.delta_hidden_bias, 
+        delta_hidden_bias_new = self._update(self.delta_hidden_bias, 
             tf.reduce_mean(hidden_p - hidden_recon_p, 0))
 
         update_delta_w = self.delta_w.assign(delta_w_new)
@@ -236,7 +236,7 @@ class RBM:
             tf.transpose(self.W)) + self.visible_bias
 
 
-    def partial_fit(self, batch_x):
+    def _partial_fit(self, batch_x):
         """
         This function runs a training iteration on the mini-batch sample from
         the training data.
@@ -290,7 +290,7 @@ class RBM:
                 start_idx = batch * batch_size
                 end_idx = (batch + 1) * batch_size
                 batch_x = data_x_shuffled[start_idx:end_idx]
-                self.partial_fit(batch_x)
+                self._partial_fit(batch_x)
                 batch_err = self.get_err(batch_x)
                 epoch_errs[epoch_errs_idx] = batch_err
                 epoch_errs_idx += 1
