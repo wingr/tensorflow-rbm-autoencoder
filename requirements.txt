@@ -1,4 +1,4 @@
-matplotlib==2.1.2
+matplotlib==2.0.0
 numpy==1.14.1
 pillow==5.0.0
 pytest==3.4.1

@@ -8,6 +8,8 @@ Date:   2017-10-16
 import os
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image, ImageOps
 
@@ -253,6 +255,12 @@ def get_weight_tiles(W, img_shape, tile_shape):
     Returns:
         :param fig:         The resulting tile plot
         :type fig:          A matplotlib figure object
+
+
+    NOTE: For some reason this doesn't work with matplotlib=2.1.2. I had to 
+    downgrade to 2.0.0. The error is,
+    `AttributeError: 'numpy.ndarray' object has no attribute 'mask'`
+    See also, https://stackoverflow.com/questions/47992078/error-trying-to-split-image-colors-numpy-ndarray-object-has-no-attribute-mask
     """
     image = Image.fromarray(tile_raster_images(X=W.T, img_shape=img_shape, 
         tile_shape=tile_shape, tile_spacing=(1, 1)))
