@@ -18,6 +18,7 @@ Note: The primary logic is contained in the rbm.py module.
 """
 
 import os
+import sys
 import time
 
 import numpy as np
@@ -25,15 +26,16 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from utils import data_utils, general_utils, visual_utils
-from rbm import RBM
+sys.path.insert(1, os.path.join(sys.path[0], '../../../'))
+from src.rbm_models.utils import data_utils, general_utils, visual_utils
+from src.rbm_models.rbm import RBM
 
 
 class Runner():
     def __init__(self):
         # Define directory and image attributes
         self.data_dir = os.path.join(os.getcwd(), 'data/')
-        self.image_dir = os.path.join(os.getcwd(), 'src/rbm-models/images/')
+        self.image_dir = os.path.join(os.getcwd(), 'src/rbm_models/images/')
         self.weights_dir = os.path.join(os.getcwd(), 'data/saved-weights/')
         self.data_file = 'mldata/mnist-original.mat'
         self.height = 28
