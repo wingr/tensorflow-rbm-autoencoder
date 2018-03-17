@@ -9,5 +9,5 @@
 
 # Project specific
 tests/docker_example.txt
-src/rbm-models/images/
-src/rbm-models/notes.txt
+src/rbm_models/images/
+src/rbm_models/notes.txt
