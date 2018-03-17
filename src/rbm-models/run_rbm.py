@@ -6,6 +6,14 @@ and the free engergies of a set of samples.
 Author: @wingr
 Date: 2018-02-23
 
+Usage (defaults shown):
+$ python run_rbm.py --n_epochs=1 
+                    --n_hidden=400 
+                    --batch_size=100 
+                    --digit=0 
+                    --visualize=True
+                    --save_weights=False
+
 Note: The primary logic is contained in the rbm.py module.
 """
 
@@ -23,16 +31,15 @@ from rbm import RBM
 
 class Runner():
     def __init__(self):
-        # -------------------------- CONTROL PANEL --------------------------- #
+        # Define directory and image attributes
         self.data_dir = os.path.join(os.getcwd(), 'data/')
         self.image_dir = os.path.join(os.getcwd(), 'src/rbm-models/images/')
-        #self.image_dir = os.path.join(os.getcwd(), 'images/') # run outside Docker
         self.weights_dir = os.path.join(os.getcwd(), 'data/saved-weights/')
         self.data_file = 'mldata/mnist-original.mat'
         self.height = 28
         self.width = 28
 
-        # ------------------ RETRIEVE COMMAND LINE ARGS ---------------------- #
+        # Retrieve command line arguments
         parser = general_utils.get_argparser()
         args = parser.parse_args()
         self.n_epochs = args.n_epochs
@@ -43,7 +50,7 @@ class Runner():
         self.save_weights = args.save_weights
 
 
-    def get_data(self):
+    def _get_data(self):
         """
         This function either pulls the MNIST data from sklearn.datasets and stores
         the data in the data_dir. If the data has already been pulled and exists
@@ -71,7 +78,7 @@ class Runner():
         return X, y_integer, y_onehot
 
 
-    def plot_weights(self, rbm_obj, img_shape, tile_shape, outfile):
+    def _plot_weights(self, rbm_obj, img_shape, tile_shape, outfile):
         """
         This is a wrapper function to plot the weights for each of the hidden units.
         The plot will show a representation of the digit as learned by each
@@ -92,7 +99,7 @@ class Runner():
         plt.savefig(outfile)
 
 
-    def plot_training_errs(self, errs, outfile):
+    def _plot_training_errs(self, errs, outfile):
         """
         This is a wrapper function to plot the training progress in terms of the
         errors between the training data and the reconstructed visible layer.
@@ -107,7 +114,7 @@ class Runner():
         plt.savefig(outfile)
 
 
-    def plot_digit_engeries(self, X, y_integer, rbm_obj, outfile):
+    def _plot_digit_engeries(self, X, y_integer, rbm_obj, outfile):
         """
         This is a wrapper function to plot the negative free engergies (basically
         the non-normalized probabilities) for each sample in our training set in
@@ -159,7 +166,7 @@ class Runner():
                     self.digit)
 
         # -------------------------- GET DATA FOR DIGIT -------------------------- #
-        X, y_integer, _ = self.get_data()
+        X, y_integer, _ = self._get_data()
         X_digit = X[y_integer == self.digit]
 
         # -------------------------- DEFINE AND FIT RBM -------------------------- #
@@ -172,10 +179,10 @@ class Runner():
         # ----------------------- ACTIONS WITH TRAINED RBM ----------------------- #
         if self.visualize:
             print('Creating plots')
-            self.plot_training_errs(errs, errs_plot_outfile)
-            self.plot_weights(rbm_obj, img_shape, tile_shape,
+            self._plot_training_errs(errs, errs_plot_outfile)
+            self._plot_weights(rbm_obj, img_shape, tile_shape,
                             weights_plot_outfile)
-            self.plot_digit_engeries(X, y_integer, rbm_obj, energy_plot_outfile)
+            self._plot_digit_engeries(X, y_integer, rbm_obj, energy_plot_outfile)
 
 
 if __name__ == '__main__':
