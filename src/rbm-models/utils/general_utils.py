@@ -26,7 +26,7 @@ def get_argparser():
                         help="""The number of samples in each mini-batch""")
     parser.add_argument('--digit', type=int, default=0,
                         help="""The MNIST digit on which to train the RBM""")
-    parser.add_argument('--visualize', type=bool, default=False,
+    parser.add_argument('--visualize', type=bool, default=True,
                         help="""Whether or not to show prediction distributions""")
     parser.add_argument('--save_weights', type=bool, default=False,
                         help="""Whether or not to save weights""")
