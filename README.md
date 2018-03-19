@@ -35,9 +35,9 @@ It is also possible to run these models without Docker if you have the packages 
 
 ## Running applications
 #### With Docker
-* The design of this setup is to allow for CLI by using the `script/run` file as the entry point into the application. Given this setup, to run the models call,
-    * `$ script/app-env script/run` plus any command line arguments.
-    * The `script/app-env` part puts you into the Docker container's environment, and the `script/run` part is the entry point into the application as mentioned above.
+* The design of this setup is to allow for CLI by using the `script/run-digits-rbm` file as the entry point into the application. Given this setup, to run the models call,
+    * `$ script/app-env script/run-digits-rbm` plus any command line arguments.
+    * The `script/app-env` part puts you into the Docker container's environment, and the `script/run-digits-rbm` part is the entry point into the application as mentioned above.
 
 * You can also run other commands and modules separately inside the Docker container, e.g.
     * `$ script/app-env python some_other_module.py --infile "myfile.txt"` (to run a different Python module)
@@ -47,8 +47,8 @@ It is also possible to run these models without Docker if you have the packages 
 
 
 #### Without Docker
-The design of this setup is to allow for CLI by using the `script/run` file as the entry point into the application. Given this setup, to run the models call,
-  * `$ script/run` plus any command line arguments.
+The design of this setup is to allow for CLI by using the `script/run-digits-rbm` file as the entry point into the application. Given this setup, to run the models call,
+  * `$ script/run-digits-rbm` plus any command line arguments.
 
 
 #### Command line arguments
@@ -64,10 +64,10 @@ Whether the models are run with Docker or without, there are a number of optiona
 
 For example (shown with defaults):
 ```bash
-$ python run_rbm.py --n_epochs 1
-                    --n_hidden 400
-                    --batch_size 100
-                    --digit 0
-                    --visualize=True
-                    --save_weights=False
+$ script/app-env script/run-digits-rbm  --n_epochs 1
+                                        --n_hidden 400
+                                        --batch_size 100
+                                        --digit 0
+                                        --visualize=True
+                                        --save_weights=False
 ```
