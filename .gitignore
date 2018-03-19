@@ -1,10 +1,13 @@
 # General
-__pycache__
-.pytest_cache/
+*__pycache__
+*.pytest_cache/
 *.cache
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
+*data/
 
 # Project specific
 tests/docker_example.txt
+src/rbm_models/images/
+src/rbm_models/notes.txt

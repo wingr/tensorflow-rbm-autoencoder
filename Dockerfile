@@ -11,6 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /src
 WORKDIR /src
+VOLUME ["/src"]
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
