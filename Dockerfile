@@ -7,6 +7,7 @@ STOPSIGNAL SIGQUIT
 RUN touch /etc/inside-container
 
 COPY requirements.txt ./
+RUN pip install -U pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /src
