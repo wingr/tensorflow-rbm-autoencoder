@@ -186,7 +186,7 @@ class Runner():
         errs, errs_valid = rbm_obj.fit(X_train, X_valid, n_epochs=self.n_epochs, 
                                        batch_size=self.batch_size)
         if self.save_weights:
-            rbm_obj.save_weights(self.weights_file, weights_prefix='weights')
+            rbm_obj.save_weights(weights_file, prefix='weights')
 
         # ----------------------- ACTIONS WITH TRAINED RBM ----------------------- #
         if self.visualize:
