@@ -5,6 +5,7 @@
 *DS_Store
 *.py[cod]
 *.ipynb_checkpoints/
+.python-version
 *data/
 
 # Project specific
