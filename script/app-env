@@ -9,4 +9,9 @@ appdir=$(cd $(dirname "$0")/.. && pwd)
 cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
 image=${DOCKER_IMAGE:=tf-rbm-autoencoder}
 
-exec docker run -i -t -v "$appdir:/src" $image $cmd
+if [ ! -f script/.env ]; then
+    echo "Environment variables file (script/.env) not found!"
+    exec docker run --runtime=nvidia -i -t -v "$appdir:/src" $image $cmd
+else
+    exec docker run --runtime=nvidia --env-file="script/.env" -i -t -v "$appdir:/src" $image $cmd
+fi
