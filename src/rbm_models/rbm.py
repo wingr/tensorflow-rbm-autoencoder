@@ -388,6 +388,18 @@ class RBM:
         self.sess.run(self.visible_bias.assign(visible_bias))
         self.sess.run(self.hidden_bias.assign(hidden_bias))
 
+    def save_weights_np(self, X, filename):
+        """Saves the weights (or biases) as a numpy array.
+
+        Args:
+            :param X:           The array to save
+            :type X:            np.ndarray
+            :param filename:    The file to which to save the weights
+            :type filename:     String
+            :param prefix:      A prefix for each weight array
+            :type prefix:       String
+        """
+        np.save(filename, X)
 
     def save_weights(self, filename, prefix):
         """
@@ -396,7 +408,7 @@ class RBM:
             :param filename:    The file to which to save the weights
             :type filename:     String
             :param prefix:      A prefix for each weight array
-            :type prefix        String
+            :type prefix:       String
         Returns:
         """
         saver = tf.train.Saver({prefix + '_w': self.W,
