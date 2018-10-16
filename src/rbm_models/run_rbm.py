@@ -52,6 +52,9 @@ class Runner():
         self.visualize = args.visualize
         self.save_weights = args.save_weights
 
+        # Image directory won't be made automatically if it doesn't exist
+        if not os.path.exists(self.image_dir): 
+            os.makedirs(self.image_dir)
 
     def _get_data(self):
         """
