@@ -1,0 +1,17 @@
+#!/bin/sh
+# Run a command in the app's development environment.
+
+set -e
+
+appdir=$(cd $(dirname "$0")/.. && pwd)
+[ -f /etc/inside-container ] && exec "$@"
+
+cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
+image=${DOCKER_IMAGE:=code-purpose}
+
+if [ ! -f script/.env ]; then
+    echo "Environment variables file (script/.env) not found!"
+    exec docker run -i -t -v "$appdir:/src" $image $cmd
+else
+    exec docker run --env-file="script/.env" -i -t -v "$appdir:/src" $image $cmd
+fi
