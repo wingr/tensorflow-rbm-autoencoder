@@ -126,7 +126,7 @@ def save_image(X_i, y_i, height, width, multiplier, image_dir):
     image.save(filename)
 
 
-def plot_training_errs(errs):
+def plot_training_errs(errs, errs_valid):
     """
     This function plots the training progress using the errors at each iteration
     between the training data and the reconstruction of that data by the RBM
@@ -139,10 +139,12 @@ def plot_training_errs(errs):
         :type fig:      Matplotlib figure object
     """
     fig, ax = plt.subplots(1, 1, figsize=(12, 6))
-    ax.plot(errs)
+    ax.plot(errs, 'b-', label='Training')
+    ax.plot(errs_valid, 'r-', label='Validation')
     ax.set_title('Training Progress')
     ax.set_xlabel('Training iterations')
     ax.set_ylabel('Error')
+    ax.legend(loc=0, labelspacing=1.5, fontsize=12)
     ax.grid(True)
     return fig
 
