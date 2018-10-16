@@ -7,7 +7,7 @@ appdir=$(cd $(dirname "$0")/.. && pwd)
 [ -f /etc/inside-container ] && exec "$@"
 
 cmd="$@"; [ "$#" -eq 0 ] && cmd=bash
-image=${DOCKER_IMAGE:=code-purpose}
+image=${DOCKER_IMAGE:=tf-rbm-autoencoder}
 
 if [ ! -f script/.env ]; then
     echo "Environment variables file (script/.env) not found!"
