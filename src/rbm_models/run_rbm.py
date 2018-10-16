@@ -187,6 +187,8 @@ class Runner():
                                        batch_size=self.batch_size)
         if self.save_weights:
             rbm_obj.save_weights(weights_file, prefix='weights')
+            W, _, _ = rbm_obj.get_weights()
+            rbm_obj.save_weights_np(W, weights_file + '.npy')
 
         # ----------------------- ACTIONS WITH TRAINED RBM ----------------------- #
         if self.visualize:
