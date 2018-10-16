@@ -7,4 +7,4 @@ appdir=$(cd $(dirname "$0")/.. && pwd)
 
 export PYTHONPATH="${appdir}/src:$PYTHONPATH"
 
-pytest --durations=5 tests
+pytest -v --durations=5 tests

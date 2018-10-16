@@ -173,10 +173,10 @@ class Runner():
 
         # -------------------------- GET DATA FOR DIGIT -------------------------- #
         X, y_integer, _ = self._get_data()
-        #X_digit = X[y_integer == self.digit]
-        #y_digit = y_integer[y_integer == self.digit]
-        #X_train, X_valid, _, _ = train_test_split(X_digit, y_digit,
-        X_train, X_valid, _, _ = train_test_split(X, y_integer,
+        X_digit = X[y_integer == self.digit]
+        y_digit = y_integer[y_integer == self.digit]
+        X_train, X_valid, _, _ = train_test_split(X_digit, y_digit,
+        #X_train, X_valid, _, _ = train_test_split(X, y_integer,
                                                   test_size=0.10,
                                                   shuffle=True,
                                                   random_state=4)

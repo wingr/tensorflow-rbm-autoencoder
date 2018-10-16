@@ -6,6 +6,7 @@
 *.py[cod]
 *.ipynb_checkpoints/
 .python-version
+*.env
 *data/
 
 # Project specific
