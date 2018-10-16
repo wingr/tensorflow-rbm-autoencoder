@@ -25,8 +25,9 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
-sys.path.insert(1, os.path.join(sys.path[0], '../../../'))
+sys.path.insert(1, os.path.join(sys.path[0], '../../'))
 from src.rbm_models.utils import data_utils, general_utils, visual_utils
 from src.rbm_models.rbm import RBM
 
@@ -101,7 +102,7 @@ class Runner():
         plt.savefig(outfile)
 
 
-    def _plot_training_errs(self, errs, outfile):
+    def _plot_training_errs(self, errs, errs_valid, outfile):
         """
         This is a wrapper function to plot the training progress in terms of the
         errors between the training data and the reconstructed visible layer.
@@ -112,7 +113,7 @@ class Runner():
             :param outfile: The file path to which to save the plot
             :type outfile:  String
         """
-        fig = visual_utils.plot_training_errs(errs)
+        fig = visual_utils.plot_training_errs(errs, errs_valid)
         plt.savefig(outfile)
 
 
@@ -169,19 +170,25 @@ class Runner():
 
         # -------------------------- GET DATA FOR DIGIT -------------------------- #
         X, y_integer, _ = self._get_data()
-        X_digit = X[y_integer == self.digit]
+        #X_digit = X[y_integer == self.digit]
+        #y_digit = y_integer[y_integer == self.digit]
+        #X_train, X_valid, _, _ = train_test_split(X_digit, y_digit,
+        X_train, X_valid, _, _ = train_test_split(X, y_integer,
+                                                  test_size=0.10,
+                                                  shuffle=True,
+                                                  random_state=4)
 
         # -------------------------- DEFINE AND FIT RBM -------------------------- #
         rbm_obj = RBM(n_visible, self.n_hidden)
-        errs = rbm_obj.fit(X_digit, n_epochs=self.n_epochs, 
-                            batch_size=self.batch_size)
+        errs, errs_valid = rbm_obj.fit(X_train, X_valid, n_epochs=self.n_epochs, 
+                                       batch_size=self.batch_size)
         if self.save_weights:
             rbm_obj.save_weights(self.weights_file, weights_prefix='weights')
 
         # ----------------------- ACTIONS WITH TRAINED RBM ----------------------- #
         if self.visualize:
             print('Creating plots')
-            self._plot_training_errs(errs, errs_plot_outfile)
+            self._plot_training_errs(errs, errs_valid, errs_plot_outfile)
             self._plot_weights(rbm_obj, img_shape, tile_shape,
                             weights_plot_outfile)
             self._plot_digit_engeries(X, y_integer, rbm_obj, energy_plot_outfile)
