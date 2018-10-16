@@ -3,4 +3,4 @@
 set -e
 cd $(dirname "$0")/..
 
-docker run --runtime=nvidia -it --net=host --ipc=host -p 8888:8888 -v $(pwd)/src/notebooks/:/tf-rbm-autoencoder/src/notebooks tf-rbm-autoencoder
+docker run --runtime=nvidia -it --net=host --ipc=host -p 8888:8888 -v $(pwd)/src/:/tf-rbm-autoencoder/src tf-rbm-autoencoder
