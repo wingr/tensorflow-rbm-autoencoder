@@ -1,4 +1,4 @@
-FROM python:3.6.4
+FROM tensorflow/tensorflow:latest-gpu-py3
 MAINTAINER @wingr
 
 # send SIGQUIT to stop container
@@ -16,4 +16,8 @@ VOLUME ["/src"]
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      build-essential
+      build-essential \
+      apt-file \
+      vim
+
+CMD ["jupyter", "notebook", "--allow-root", "--ip=0.0.0.0", "--NotebookApp.token=''", "--no-browser"]
