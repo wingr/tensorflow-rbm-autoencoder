@@ -248,7 +248,7 @@ class RBM:
             feed_dict={self.X: batch_x})
 
 
-    def fit(self, data_x, n_epochs=10, batch_size=100, verbose=True):
+    def fit(self, data_x, x_valid, n_epochs=10, batch_size=100, verbose=True):
         """
         This function fits the RBM and prints progress to the screen if
         verbose=True.
@@ -274,12 +274,14 @@ class RBM:
         n_data = data_x.shape[0]
         n_batches = int(np.ceil(n_data / batch_size))
         errs = []
+        errs_valid = []
 
         for epoch in range(n_epochs):
             if verbose:
                 print('Epoch: {}'.format(epoch + 1))
 
             epoch_errs = np.zeros((n_batches,))
+            epoch_errs_valid = np.zeros((n_batches,))
             epoch_errs_idx = 0
 
             # Shuffle data samples
@@ -291,18 +293,23 @@ class RBM:
                 end_idx = (batch + 1) * batch_size
                 batch_x = data_x_shuffled[start_idx:end_idx]
                 self._partial_fit(batch_x)
+
                 batch_err = self.get_err(batch_x)
                 epoch_errs[epoch_errs_idx] = batch_err
+                validation_err = self.get_err(x_valid)
+                epoch_errs_valid[epoch_errs_idx] = validation_err
                 epoch_errs_idx += 1
 
             if verbose:
                 err_mean = epoch_errs.mean()
                 print('Train error: {:.4f}'.format(err_mean))
+                print('Validation error: {:.4f}'.format(epoch_errs_valid.mean()))
                 sys.stdout.flush()
 
             errs = np.hstack([errs, epoch_errs])
+            errs_valid = np.hstack([errs_valid, epoch_errs_valid])
 
-        return errs
+        return errs, errs_valid
 
 
     def get_err(self, batch_x):
