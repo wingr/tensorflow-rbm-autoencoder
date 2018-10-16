@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+cd $(dirname "$0")/..
+
+docker run --runtime=nvidia -it --net=host --ipc=host -p 8888:8888 -v $(pwd)/src/notebooks/:/code-purpose/src/notebooks code-purpose
